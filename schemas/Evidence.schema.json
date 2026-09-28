@@ -1,0 +1,84 @@
+{
+  "$defs": {
+    "EvidenceType": {
+      "description": "Tipos de evidência aceitos pelo ecossistema.",
+      "enum": [
+        "TEXT",
+        "TRANSCRIPT",
+        "AUDIO",
+        "VIDEO",
+        "IMAGE",
+        "SCREENSHOT",
+        "LOG",
+        "ERROR",
+        "PDF",
+        "DOCUMENT",
+        "URL",
+        "CODE",
+        "DIFF"
+      ],
+      "title": "EvidenceType",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Evidência multimodal associada a um workspace.\n\nO ai-core fornece apenas o modelo comum; o processamento específico de cada\nformato é responsabilidade das aplicações.",
+  "properties": {
+    "content": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Content"
+    },
+    "created_at": {
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    },
+    "id": {
+      "title": "Id",
+      "type": "string"
+    },
+    "metadata": {
+      "additionalProperties": true,
+      "title": "Metadata",
+      "type": "object"
+    },
+    "mime_type": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Mime Type"
+    },
+    "source_name": {
+      "title": "Source Name",
+      "type": "string"
+    },
+    "source_type": {
+      "$ref": "#/$defs/EvidenceType"
+    },
+    "workspace_id": {
+      "title": "Workspace Id",
+      "type": "string"
+    }
+  },
+  "required": [
+    "workspace_id",
+    "source_type",
+    "source_name"
+  ],
+  "title": "Evidence",
+  "type": "object"
+}

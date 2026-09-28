@@ -1,0 +1,35 @@
+{
+  "name": "ai-core-types",
+  "version": "0.1.0",
+  "description": "Tipos TypeScript gerados a partir dos JSON Schemas do ai-core (fonte única, plano §22)",
+  "license": "Apache-2.0",
+  "author": "Eldevan Nery Junior",
+  "type": "module",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "schemas",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "schemas": "uv run --project ../ai-core python -m ai_core.schemas schemas",
+    "generate": "node scripts/generate.mjs",
+    "build": "npm run schemas && npm run generate",
+    "test": "node --test tests/generate.test.mjs",
+    "prepare": "lefthook install"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^21.2.3",
+    "@commitlint/config-conventional": "^21.2.3",
+    "lefthook": "^2.1.14"
+  },
+  "packageManager": "pnpm@12.6.0"
+}

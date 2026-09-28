@@ -1,0 +1,213 @@
+{
+  "$defs": {
+    "Source": {
+      "additionalProperties": false,
+      "description": "Referência navegável para a origem de um trecho de conhecimento ou tarefa.",
+      "properties": {
+        "evidence_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Evidence Id"
+        },
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "location": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Location"
+        },
+        "metadata": {
+          "additionalProperties": true,
+          "title": "Metadata",
+          "type": "object"
+        },
+        "title": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Title"
+        },
+        "type": {
+          "$ref": "#/$defs/SourceKind"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "title": "Source",
+      "type": "object"
+    },
+    "SourceKind": {
+      "description": "Natureza da origem de uma informação.",
+      "enum": [
+        "FILE",
+        "TRANSCRIPT",
+        "TIMESTAMP",
+        "LOG_LINE",
+        "URL",
+        "ISSUE",
+        "COMMIT",
+        "SCREENSHOT",
+        "OTHER"
+      ],
+      "title": "SourceKind",
+      "type": "string"
+    },
+    "Task": {
+      "additionalProperties": false,
+      "description": "Tarefa neutra. Não contém campos específicos de Jira/GitHub/ClickUp/Linear.",
+      "properties": {
+        "acceptance_criteria": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Acceptance Criteria",
+          "type": "array"
+        },
+        "created_at": {
+          "format": "date-time",
+          "title": "Created At",
+          "type": "string"
+        },
+        "description": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Description"
+        },
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "labels": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Labels",
+          "type": "array"
+        },
+        "metadata": {
+          "additionalProperties": true,
+          "title": "Metadata",
+          "type": "object"
+        },
+        "priority": {
+          "$ref": "#/$defs/TaskPriority",
+          "default": "MEDIUM"
+        },
+        "related_entities": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Related Entities",
+          "type": "array"
+        },
+        "sources": {
+          "items": {
+            "$ref": "#/$defs/Source"
+          },
+          "title": "Sources",
+          "type": "array"
+        },
+        "title": {
+          "title": "Title",
+          "type": "string"
+        },
+        "type": {
+          "$ref": "#/$defs/TaskType"
+        },
+        "workspace_id": {
+          "title": "Workspace Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "workspace_id",
+        "type",
+        "title"
+      ],
+      "title": "Task",
+      "type": "object"
+    },
+    "TaskPriority": {
+      "description": "Prioridades neutras utilizadas pelo ecossistema.",
+      "enum": [
+        "LOW",
+        "MEDIUM",
+        "HIGH",
+        "CRITICAL"
+      ],
+      "title": "TaskPriority",
+      "type": "string"
+    },
+    "TaskType": {
+      "description": "Categorias neutras de trabalho reconhecidas pelo Task Engine.",
+      "enum": [
+        "BUG",
+        "TASK",
+        "FEATURE",
+        "IMPROVEMENT",
+        "TECH_DEBT",
+        "QUESTION",
+        "INVESTIGATION",
+        "DOCUMENTATION"
+      ],
+      "title": "TaskType",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Saída de ``search_tasks``.",
+  "properties": {
+    "tasks": {
+      "items": {
+        "$ref": "#/$defs/Task"
+      },
+      "title": "Tasks",
+      "type": "array"
+    },
+    "total": {
+      "anyOf": [
+        {
+          "minimum": 0,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Total"
+    }
+  },
+  "title": "SearchTasksResponse",
+  "type": "object"
+}

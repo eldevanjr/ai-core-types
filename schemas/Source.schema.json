@@ -1,0 +1,77 @@
+{
+  "$defs": {
+    "SourceKind": {
+      "description": "Natureza da origem de uma informação.",
+      "enum": [
+        "FILE",
+        "TRANSCRIPT",
+        "TIMESTAMP",
+        "LOG_LINE",
+        "URL",
+        "ISSUE",
+        "COMMIT",
+        "SCREENSHOT",
+        "OTHER"
+      ],
+      "title": "SourceKind",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Referência navegável para a origem de um trecho de conhecimento ou tarefa.",
+  "properties": {
+    "evidence_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Evidence Id"
+    },
+    "id": {
+      "title": "Id",
+      "type": "string"
+    },
+    "location": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Location"
+    },
+    "metadata": {
+      "additionalProperties": true,
+      "title": "Metadata",
+      "type": "object"
+    },
+    "title": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Title"
+    },
+    "type": {
+      "$ref": "#/$defs/SourceKind"
+    }
+  },
+  "required": [
+    "type"
+  ],
+  "title": "Source",
+  "type": "object"
+}

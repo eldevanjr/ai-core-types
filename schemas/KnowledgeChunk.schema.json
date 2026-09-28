@@ -1,0 +1,51 @@
+{
+  "additionalProperties": false,
+  "description": "Fragmento de um documento, unidade básica de indexação e busca.\n\nO core não armazena obrigatoriamente o vetor; ``embedding_reference`` é a\nabstração que liga o chunk ao armazenamento vetorial concreto.",
+  "properties": {
+    "content": {
+      "title": "Content",
+      "type": "string"
+    },
+    "document_id": {
+      "title": "Document Id",
+      "type": "string"
+    },
+    "embedding_reference": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Embedding Reference"
+    },
+    "id": {
+      "title": "Id",
+      "type": "string"
+    },
+    "metadata": {
+      "additionalProperties": true,
+      "title": "Metadata",
+      "type": "object"
+    },
+    "position": {
+      "default": 0,
+      "title": "Position",
+      "type": "integer"
+    },
+    "workspace_id": {
+      "title": "Workspace Id",
+      "type": "string"
+    }
+  },
+  "required": [
+    "document_id",
+    "workspace_id",
+    "content"
+  ],
+  "title": "KnowledgeChunk",
+  "type": "object"
+}

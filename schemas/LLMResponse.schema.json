@@ -1,0 +1,105 @@
+{
+  "$defs": {
+    "LLMUsage": {
+      "additionalProperties": false,
+      "description": "Contagem de tokens reportada pelo provider, quando disponível.",
+      "properties": {
+        "completion_tokens": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Completion Tokens"
+        },
+        "prompt_tokens": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Prompt Tokens"
+        },
+        "total_tokens": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Total Tokens"
+        }
+      },
+      "title": "LLMUsage",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Resultado de uma chamada de geração.",
+  "properties": {
+    "duration_ms": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Duration Ms"
+    },
+    "metadata": {
+      "additionalProperties": true,
+      "title": "Metadata",
+      "type": "object"
+    },
+    "model": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Model"
+    },
+    "provider": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Provider"
+    },
+    "text": {
+      "title": "Text",
+      "type": "string"
+    },
+    "usage": {
+      "$ref": "#/$defs/LLMUsage"
+    }
+  },
+  "required": [
+    "text"
+  ],
+  "title": "LLMResponse",
+  "type": "object"
+}

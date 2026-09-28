@@ -1,0 +1,67 @@
+{
+  "$defs": {
+    "WorkspaceStatus": {
+      "description": "Estado de ciclo de vida de um workspace.",
+      "enum": [
+        "ACTIVE",
+        "ARCHIVED",
+        "DISABLED"
+      ],
+      "title": "WorkspaceStatus",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Contexto lógico que isola conhecimento, evidências, tarefas e políticas.\n\nUm workspace não representa diretamente um projeto Jira ou um repositório\nGitHub; esses são apenas destinos externos que podem ser associados a ele.",
+  "properties": {
+    "created_at": {
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    },
+    "description": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Description"
+    },
+    "id": {
+      "title": "Id",
+      "type": "string"
+    },
+    "metadata": {
+      "additionalProperties": true,
+      "title": "Metadata",
+      "type": "object"
+    },
+    "name": {
+      "title": "Name",
+      "type": "string"
+    },
+    "slug": {
+      "title": "Slug",
+      "type": "string"
+    },
+    "status": {
+      "$ref": "#/$defs/WorkspaceStatus",
+      "default": "ACTIVE"
+    },
+    "updated_at": {
+      "format": "date-time",
+      "title": "Updated At",
+      "type": "string"
+    }
+  },
+  "required": [
+    "name",
+    "slug"
+  ],
+  "title": "Workspace",
+  "type": "object"
+}

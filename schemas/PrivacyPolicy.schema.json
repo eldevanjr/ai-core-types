@@ -1,0 +1,24 @@
+{
+  "$defs": {
+    "PrivacyMode": {
+      "description": "Modos de privacidade suportados.",
+      "enum": [
+        "LOCAL_ONLY",
+        "LOCAL_FIRST",
+        "ALLOW_CLOUD"
+      ],
+      "title": "PrivacyMode",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Regras aplicáveis ao :class:`ai_core.llm.router.ModelRouter` e afins.\n\n- ``LOCAL_ONLY``: nunca envia conteúdo para provider cloud.\n- ``LOCAL_FIRST``: prefere local; cloud exige configuração/confirmação explícita.\n- ``ALLOW_CLOUD``: cloud é permitido sem confirmação adicional.\n\nAs comparações usam ``==`` (e não ``is``) para que localizações recebidas como\nstring (ex.: vindas de configuração/JSON) sejam avaliadas corretamente.",
+  "properties": {
+    "mode": {
+      "$ref": "#/$defs/PrivacyMode",
+      "default": "LOCAL_FIRST"
+    }
+  },
+  "title": "PrivacyPolicy",
+  "type": "object"
+}

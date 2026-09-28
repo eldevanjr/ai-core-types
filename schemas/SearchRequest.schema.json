@@ -1,0 +1,31 @@
+{
+  "additionalProperties": false,
+  "description": "Pedido de busca. Toda busca é obrigatoriamente escopada a um workspace.",
+  "properties": {
+    "filters": {
+      "additionalProperties": true,
+      "title": "Filters",
+      "type": "object"
+    },
+    "limit": {
+      "default": 10,
+      "exclusiveMinimum": 0,
+      "title": "Limit",
+      "type": "integer"
+    },
+    "query": {
+      "title": "Query",
+      "type": "string"
+    },
+    "workspace_id": {
+      "title": "Workspace Id",
+      "type": "string"
+    }
+  },
+  "required": [
+    "workspace_id",
+    "query"
+  ],
+  "title": "SearchRequest",
+  "type": "object"
+}

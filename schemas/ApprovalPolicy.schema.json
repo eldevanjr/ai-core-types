@@ -1,0 +1,25 @@
+{
+  "$defs": {
+    "ApprovalMode": {
+      "description": "Modos de aprovação suportados (ver :class:`ai_core.policies.ApprovalPolicy`).\n\nVive em ``models`` para que os modelos (ex.: ``ApprovalRecord``) não dependam\nda camada de políticas.",
+      "enum": [
+        "ALWAYS_REQUIRED",
+        "REQUIRED_FOR_EXTERNAL_ACTION",
+        "AUTO_APPROVED",
+        "MANUAL_ONLY"
+      ],
+      "title": "ApprovalMode",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Define quando uma ação exige aprovação explícita.\n\nO padrão do ecossistema é ``ALWAYS_REQUIRED``: por padrão nenhuma ação\nexterna ocorre sem aprovação humana.\n\n- ``ALWAYS_REQUIRED``: toda ação exige aprovação.\n- ``REQUIRED_FOR_EXTERNAL_ACTION``: só ações externas exigem aprovação.\n- ``AUTO_APPROVED``: execução automática permitida.\n- ``MANUAL_ONLY``: toda ação exige aprovação de uma pessoa identificada\n  (``ApprovalRecord.approved_by``); fluxos automáticos nunca aprovam.",
+  "properties": {
+    "mode": {
+      "$ref": "#/$defs/ApprovalMode",
+      "default": "ALWAYS_REQUIRED"
+    }
+  },
+  "title": "ApprovalPolicy",
+  "type": "object"
+}

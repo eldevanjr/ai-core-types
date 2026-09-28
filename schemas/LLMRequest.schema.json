@@ -1,0 +1,76 @@
+{
+  "additionalProperties": false,
+  "description": "Parâmetros de uma chamada de geração.",
+  "properties": {
+    "context": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Context",
+      "type": "array"
+    },
+    "max_tokens": {
+      "anyOf": [
+        {
+          "exclusiveMinimum": 0,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Max Tokens"
+    },
+    "metadata": {
+      "additionalProperties": true,
+      "title": "Metadata",
+      "type": "object"
+    },
+    "model": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Model"
+    },
+    "requires_vision": {
+      "default": false,
+      "title": "Requires Vision",
+      "type": "boolean"
+    },
+    "system_prompt": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "System Prompt"
+    },
+    "temperature": {
+      "default": 0.0,
+      "maximum": 2.0,
+      "minimum": 0.0,
+      "title": "Temperature",
+      "type": "number"
+    },
+    "user_prompt": {
+      "title": "User Prompt",
+      "type": "string"
+    }
+  },
+  "required": [
+    "user_prompt"
+  ],
+  "title": "LLMRequest",
+  "type": "object"
+}

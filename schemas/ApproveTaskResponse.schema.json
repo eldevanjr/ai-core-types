@@ -1,0 +1,655 @@
+{
+  "$defs": {
+    "ApprovalMode": {
+      "description": "Modos de aprovação suportados (ver :class:`ai_core.policies.ApprovalPolicy`).\n\nVive em ``models`` para que os modelos (ex.: ``ApprovalRecord``) não dependam\nda camada de políticas.",
+      "enum": [
+        "ALWAYS_REQUIRED",
+        "REQUIRED_FOR_EXTERNAL_ACTION",
+        "AUTO_APPROVED",
+        "MANUAL_ONLY"
+      ],
+      "title": "ApprovalMode",
+      "type": "string"
+    },
+    "ApprovalRecord": {
+      "additionalProperties": false,
+      "description": "Registro factual da aprovação humana (ou automática) de uma proposta.\n\nEm ``MANUAL_ONLY`` uma aprovação precisa identificar a pessoa (``approved_by``).",
+      "properties": {
+        "approved": {
+          "title": "Approved",
+          "type": "boolean"
+        },
+        "approved_by": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Approved By"
+        },
+        "decided_at": {
+          "format": "date-time",
+          "title": "Decided At",
+          "type": "string"
+        },
+        "mode": {
+          "$ref": "#/$defs/ApprovalMode"
+        }
+      },
+      "required": [
+        "mode",
+        "approved"
+      ],
+      "title": "ApprovalRecord",
+      "type": "object"
+    },
+    "ContextReference": {
+      "additionalProperties": false,
+      "description": "Item de contexto recuperado, com justificativa descritiva da relevância.\n\nNão expõe raciocínio interno privado do modelo.",
+      "properties": {
+        "excerpt": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Excerpt"
+        },
+        "relevance": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Relevance"
+        },
+        "source": {
+          "$ref": "#/$defs/Source"
+        }
+      },
+      "required": [
+        "source"
+      ],
+      "title": "ContextReference",
+      "type": "object"
+    },
+    "DestinationRef": {
+      "additionalProperties": false,
+      "description": "Referência neutra a um destino externo de tarefa.\n\nNem todos os campos se aplicam a todos os providers (ex.: GitHub não possui\n``issue_type``; ClickUp usa uma hierarquia diferente).",
+      "properties": {
+        "connection_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Connection Id"
+        },
+        "default_priority": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/TaskPriority"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "enabled": {
+          "default": true,
+          "title": "Enabled",
+          "type": "boolean"
+        },
+        "external_container_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "External Container Id"
+        },
+        "external_project_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "External Project Id"
+        },
+        "external_workspace_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "External Workspace Id"
+        },
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "issue_type": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Issue Type"
+        },
+        "provider": {
+          "title": "Provider",
+          "type": "string"
+        }
+      },
+      "required": [
+        "provider"
+      ],
+      "title": "DestinationRef",
+      "type": "object"
+    },
+    "ExecutionResult": {
+      "additionalProperties": false,
+      "description": "Resultado da execução de uma proposta em um destino externo.",
+      "properties": {
+        "error": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Error"
+        },
+        "executed_at": {
+          "format": "date-time",
+          "title": "Executed At",
+          "type": "string"
+        },
+        "external_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "External Id"
+        },
+        "external_url": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "External Url"
+        },
+        "provider": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Provider"
+        },
+        "success": {
+          "title": "Success",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "success"
+      ],
+      "title": "ExecutionResult",
+      "type": "object"
+    },
+    "ProposalStatus": {
+      "description": "Estados do ciclo de vida de uma proposta de tarefa.",
+      "enum": [
+        "DRAFT",
+        "NEEDS_REVIEW",
+        "APPROVED",
+        "REJECTED",
+        "CREATED",
+        "FAILED"
+      ],
+      "title": "ProposalStatus",
+      "type": "string"
+    },
+    "Source": {
+      "additionalProperties": false,
+      "description": "Referência navegável para a origem de um trecho de conhecimento ou tarefa.",
+      "properties": {
+        "evidence_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Evidence Id"
+        },
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "location": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Location"
+        },
+        "metadata": {
+          "additionalProperties": true,
+          "title": "Metadata",
+          "type": "object"
+        },
+        "title": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Title"
+        },
+        "type": {
+          "$ref": "#/$defs/SourceKind"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "title": "Source",
+      "type": "object"
+    },
+    "SourceKind": {
+      "description": "Natureza da origem de uma informação.",
+      "enum": [
+        "FILE",
+        "TRANSCRIPT",
+        "TIMESTAMP",
+        "LOG_LINE",
+        "URL",
+        "ISSUE",
+        "COMMIT",
+        "SCREENSHOT",
+        "OTHER"
+      ],
+      "title": "SourceKind",
+      "type": "string"
+    },
+    "Task": {
+      "additionalProperties": false,
+      "description": "Tarefa neutra. Não contém campos específicos de Jira/GitHub/ClickUp/Linear.",
+      "properties": {
+        "acceptance_criteria": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Acceptance Criteria",
+          "type": "array"
+        },
+        "created_at": {
+          "format": "date-time",
+          "title": "Created At",
+          "type": "string"
+        },
+        "description": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Description"
+        },
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "labels": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Labels",
+          "type": "array"
+        },
+        "metadata": {
+          "additionalProperties": true,
+          "title": "Metadata",
+          "type": "object"
+        },
+        "priority": {
+          "$ref": "#/$defs/TaskPriority",
+          "default": "MEDIUM"
+        },
+        "related_entities": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Related Entities",
+          "type": "array"
+        },
+        "sources": {
+          "items": {
+            "$ref": "#/$defs/Source"
+          },
+          "title": "Sources",
+          "type": "array"
+        },
+        "title": {
+          "title": "Title",
+          "type": "string"
+        },
+        "type": {
+          "$ref": "#/$defs/TaskType"
+        },
+        "workspace_id": {
+          "title": "Workspace Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "workspace_id",
+        "type",
+        "title"
+      ],
+      "title": "Task",
+      "type": "object"
+    },
+    "TaskExplanation": {
+      "additionalProperties": false,
+      "description": "Resumo factual e auditável de como uma tarefa foi proposta.\n\nPropositalmente não armazena chain-of-thought privado do modelo: apenas\nevidências, contexto, justificativas resumidas e o resultado observável.",
+      "properties": {
+        "analysis_summary": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Analysis Summary"
+        },
+        "approval": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ApprovalRecord"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "created_at": {
+          "format": "date-time",
+          "title": "Created At",
+          "type": "string"
+        },
+        "decisions": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Decisions",
+          "type": "array"
+        },
+        "destination": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/DestinationRef"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "execution_result": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ExecutionResult"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "field_justifications": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Field Justifications",
+          "type": "object"
+        },
+        "reasoning_summary": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reasoning Summary"
+        },
+        "rejected_alternatives": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Rejected Alternatives",
+          "type": "array"
+        },
+        "retrieved_context": {
+          "items": {
+            "$ref": "#/$defs/ContextReference"
+          },
+          "title": "Retrieved Context",
+          "type": "array"
+        },
+        "routing_decision": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Routing Decision"
+        },
+        "sources": {
+          "items": {
+            "$ref": "#/$defs/Source"
+          },
+          "title": "Sources",
+          "type": "array"
+        }
+      },
+      "title": "TaskExplanation",
+      "type": "object"
+    },
+    "TaskPriority": {
+      "description": "Prioridades neutras utilizadas pelo ecossistema.",
+      "enum": [
+        "LOW",
+        "MEDIUM",
+        "HIGH",
+        "CRITICAL"
+      ],
+      "title": "TaskPriority",
+      "type": "string"
+    },
+    "TaskProposal": {
+      "additionalProperties": false,
+      "description": "Tarefa proposta, ainda não executada, com fontes e explicação auditáveis.\n\n``status`` não pode ser atribuído diretamente: use :meth:`transition_to`, que\nvalida o grafo :data:`ALLOWED_TRANSITIONS` e atualiza ``updated_at``.",
+      "properties": {
+        "created_at": {
+          "format": "date-time",
+          "title": "Created At",
+          "type": "string"
+        },
+        "destination_reference": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/DestinationRef"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "explanation": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/TaskExplanation"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "metadata": {
+          "additionalProperties": true,
+          "title": "Metadata",
+          "type": "object"
+        },
+        "sources": {
+          "items": {
+            "$ref": "#/$defs/Source"
+          },
+          "title": "Sources",
+          "type": "array"
+        },
+        "status": {
+          "$ref": "#/$defs/ProposalStatus",
+          "default": "DRAFT"
+        },
+        "task": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Task"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "updated_at": {
+          "format": "date-time",
+          "title": "Updated At",
+          "type": "string"
+        },
+        "workspace_id": {
+          "title": "Workspace Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "workspace_id"
+      ],
+      "title": "TaskProposal",
+      "type": "object"
+    },
+    "TaskType": {
+      "description": "Categorias neutras de trabalho reconhecidas pelo Task Engine.",
+      "enum": [
+        "BUG",
+        "TASK",
+        "FEATURE",
+        "IMPROVEMENT",
+        "TECH_DEBT",
+        "QUESTION",
+        "INVESTIGATION",
+        "DOCUMENTATION"
+      ],
+      "title": "TaskType",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Saída de ``approve_task``.",
+  "properties": {
+    "proposal": {
+      "$ref": "#/$defs/TaskProposal"
+    }
+  },
+  "required": [
+    "proposal"
+  ],
+  "title": "ApproveTaskResponse",
+  "type": "object"
+}

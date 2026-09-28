@@ -1,0 +1,156 @@
+{
+  "$defs": {
+    "DestinationRef": {
+      "additionalProperties": false,
+      "description": "Referência neutra a um destino externo de tarefa.\n\nNem todos os campos se aplicam a todos os providers (ex.: GitHub não possui\n``issue_type``; ClickUp usa uma hierarquia diferente).",
+      "properties": {
+        "connection_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Connection Id"
+        },
+        "default_priority": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/TaskPriority"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "enabled": {
+          "default": true,
+          "title": "Enabled",
+          "type": "boolean"
+        },
+        "external_container_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "External Container Id"
+        },
+        "external_project_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "External Project Id"
+        },
+        "external_workspace_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "External Workspace Id"
+        },
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "issue_type": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Issue Type"
+        },
+        "provider": {
+          "title": "Provider",
+          "type": "string"
+        }
+      },
+      "required": [
+        "provider"
+      ],
+      "title": "DestinationRef",
+      "type": "object"
+    },
+    "TaskPriority": {
+      "description": "Prioridades neutras utilizadas pelo ecossistema.",
+      "enum": [
+        "LOW",
+        "MEDIUM",
+        "HIGH",
+        "CRITICAL"
+      ],
+      "title": "TaskPriority",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Entrada de ``approve_task``.",
+  "properties": {
+    "approved": {
+      "default": true,
+      "title": "Approved",
+      "type": "boolean"
+    },
+    "approved_by": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Approved By"
+    },
+    "destination": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/DestinationRef"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "proposal_id": {
+      "title": "Proposal Id",
+      "type": "string"
+    },
+    "workspace_id": {
+      "title": "Workspace Id",
+      "type": "string"
+    }
+  },
+  "required": [
+    "workspace_id",
+    "proposal_id"
+  ],
+  "title": "ApproveTaskRequest",
+  "type": "object"
+}

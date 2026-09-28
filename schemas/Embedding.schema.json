@@ -1,0 +1,47 @@
+{
+  "additionalProperties": false,
+  "description": "Vetor de embedding associado a um texto de origem.\n\nQuando ``dimension`` é informada e o vetor não está vazio, ambos precisam\nconcordar; isso detecta cedo um provider mal configurado.",
+  "properties": {
+    "dimension": {
+      "anyOf": [
+        {
+          "exclusiveMinimum": 0,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Dimension"
+    },
+    "model": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Model"
+    },
+    "text": {
+      "title": "Text",
+      "type": "string"
+    },
+    "vector": {
+      "items": {
+        "type": "number"
+      },
+      "title": "Vector",
+      "type": "array"
+    }
+  },
+  "required": [
+    "text"
+  ],
+  "title": "Embedding",
+  "type": "object"
+}

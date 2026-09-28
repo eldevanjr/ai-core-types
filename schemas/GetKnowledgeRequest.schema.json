@@ -1,0 +1,20 @@
+{
+  "additionalProperties": false,
+  "description": "Entrada de ``get_knowledge``.",
+  "properties": {
+    "document_id": {
+      "title": "Document Id",
+      "type": "string"
+    },
+    "workspace_id": {
+      "title": "Workspace Id",
+      "type": "string"
+    }
+  },
+  "required": [
+    "workspace_id",
+    "document_id"
+  ],
+  "title": "GetKnowledgeRequest",
+  "type": "object"
+}

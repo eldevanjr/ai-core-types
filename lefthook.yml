@@ -1,0 +1,20 @@
+pre-commit:
+  commands:
+    # O gerador e os tipos gerados andam juntos: roda os testes quando algum deles muda.
+    test:
+      glob: "{scripts,tests,schemas,dist}/*"
+      run: node --test tests/generate.test.mjs
+
+# Conventional Commits (a versão sai do histórico de commits).
+commit-msg:
+  commands:
+    # Todo commit deste repositório sai com o e-mail pessoal.
+    author-email:
+      run: |
+        email=$(git config user.email)
+        if [ "$email" != "eldevanjr@gmail.com" ]; then
+          echo "E-mail de commit '$email' não permitido. Rode: git config user.email eldevanjr@gmail.com"
+          exit 1
+        fi
+    commitlint:
+      run: pnpm exec commitlint --edit {1}

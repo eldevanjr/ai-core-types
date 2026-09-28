@@ -1,0 +1,53 @@
+{
+  "$defs": {
+    "ProposalStatus": {
+      "description": "Estados do ciclo de vida de uma proposta de tarefa.",
+      "enum": [
+        "DRAFT",
+        "NEEDS_REVIEW",
+        "APPROVED",
+        "REJECTED",
+        "CREATED",
+        "FAILED"
+      ],
+      "title": "ProposalStatus",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Entrada de ``list_task_proposals``.",
+  "properties": {
+    "limit": {
+      "default": 50,
+      "exclusiveMinimum": 0,
+      "title": "Limit",
+      "type": "integer"
+    },
+    "offset": {
+      "default": 0,
+      "minimum": 0,
+      "title": "Offset",
+      "type": "integer"
+    },
+    "status": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/ProposalStatus"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "workspace_id": {
+      "title": "Workspace Id",
+      "type": "string"
+    }
+  },
+  "required": [
+    "workspace_id"
+  ],
+  "title": "ListTaskProposalsRequest",
+  "type": "object"
+}

@@ -1,0 +1,163 @@
+{
+  "$defs": {
+    "KnowledgeChunk": {
+      "additionalProperties": false,
+      "description": "Fragmento de um documento, unidade básica de indexação e busca.\n\nO core não armazena obrigatoriamente o vetor; ``embedding_reference`` é a\nabstração que liga o chunk ao armazenamento vetorial concreto.",
+      "properties": {
+        "content": {
+          "title": "Content",
+          "type": "string"
+        },
+        "document_id": {
+          "title": "Document Id",
+          "type": "string"
+        },
+        "embedding_reference": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Embedding Reference"
+        },
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "metadata": {
+          "additionalProperties": true,
+          "title": "Metadata",
+          "type": "object"
+        },
+        "position": {
+          "default": 0,
+          "title": "Position",
+          "type": "integer"
+        },
+        "workspace_id": {
+          "title": "Workspace Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "document_id",
+        "workspace_id",
+        "content"
+      ],
+      "title": "KnowledgeChunk",
+      "type": "object"
+    },
+    "Source": {
+      "additionalProperties": false,
+      "description": "Referência navegável para a origem de um trecho de conhecimento ou tarefa.",
+      "properties": {
+        "evidence_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Evidence Id"
+        },
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "location": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Location"
+        },
+        "metadata": {
+          "additionalProperties": true,
+          "title": "Metadata",
+          "type": "object"
+        },
+        "title": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Title"
+        },
+        "type": {
+          "$ref": "#/$defs/SourceKind"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "title": "Source",
+      "type": "object"
+    },
+    "SourceKind": {
+      "description": "Natureza da origem de uma informação.",
+      "enum": [
+        "FILE",
+        "TRANSCRIPT",
+        "TIMESTAMP",
+        "LOG_LINE",
+        "URL",
+        "ISSUE",
+        "COMMIT",
+        "SCREENSHOT",
+        "OTHER"
+      ],
+      "title": "SourceKind",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Resultado de busca com o chunk, a pontuação e a origem verificável.",
+  "properties": {
+    "chunk": {
+      "$ref": "#/$defs/KnowledgeChunk"
+    },
+    "metadata": {
+      "additionalProperties": true,
+      "title": "Metadata",
+      "type": "object"
+    },
+    "score": {
+      "title": "Score",
+      "type": "number"
+    },
+    "source": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/Source"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    }
+  },
+  "required": [
+    "chunk",
+    "score"
+  ],
+  "title": "SearchResult",
+  "type": "object"
+}
